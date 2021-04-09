@@ -1,5 +1,8 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from animals import get_all_animals, get_single_animal
+from customers import get_all_customers, get_single_customer
+from employees import get_all_employees, get_single_employee
+from locations import get_all_locations, get_single_location
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -121,18 +124,3 @@ def main():
 # 
 if __name__ == "__main__":
     main()
-
-    # Function with a single parameter
-def get_single_animal(id):
-    # Variable to hold the found animal, if it exists
-    requested_animal = None
-
-    # Iterate the ANIMALS list above. Very similar to the
-    # for..of loops you used in JavaScript.
-    for animal in ANIMALS:
-        # Dictionaries in Python use [] notation to find a key
-        # instead of the dot notation that JavaScript used.
-        if animal["id"] == id:
-            requested_animal = animal
-
-    return requested_animal
