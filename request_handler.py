@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from animals import get_all_animals, get_single_animal, create_animal, delete_animal
-from customers import get_all_customers, get_single_customer, create_customer
+from customers import get_all_customers, get_single_customer, create_customer, delete_customer
 from employees import get_all_employees, get_single_employee, create_employee
 from locations import get_all_locations, get_single_location, create_location
 import json
@@ -95,6 +95,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # This weird code sends a response back to the client
         self.wfile.write(response.encode())
+        # self.wfile.write(json.dumps(response).encode())
         # self.wfile.write(f"{response}".encode())
 
     # Here's a method on the class that overrides the parent's method.
@@ -153,6 +154,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         # Set a 204 response code
+        # A 204 response code in HTTP means, "I, the server, successfully processed your request, but I have no information to send back to you."
         self._set_headers(204)
 
         # Parse the URL
@@ -162,6 +164,24 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "animals":
             delete_animal(id)
         # Encode the new animal and send in response
+        self.wfile.write("".encode())
+        
+        # Delete a single customer from the list
+        if resource == "customers":
+            delete_customer(id)
+        # Encode the new customer and send in response
+        self.wfile.write("".encode())
+        
+        # Delete a single employee from the list
+        if resource == "employees":
+            delete_employee(id)
+        # Encode the new employee and send in response
+        self.wfile.write("".encode())
+        
+        # Delete a single location from the list
+        if resource == "locations":
+            delete_location(id)
+        # Encode the new location and send in response
         self.wfile.write("".encode())
 
 
