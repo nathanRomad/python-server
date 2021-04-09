@@ -133,15 +133,15 @@ class HandleRequests(BaseHTTPRequestHandler):
             # Encode the new animal and send in response
             self.wfile.write(f"{new_animal}".encode())
 
-        if resource == "customers":
+        elif resource == "customers":
             new_customer = create_customer(post_body)
             self.wfile.write(f"{new_customer}".encode())
         
-        if resource == "employees":
+        elif resource == "employees":
             new_employee = create_employee(post_body)
             self.wfile.write(f"{new_employee}".encode())
         
-        if resource == "locations":
+        elif resource == "locations":
             new_location = create_location(post_body)
             self.wfile.write(f"{new_location}".encode())
 
