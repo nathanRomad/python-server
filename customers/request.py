@@ -1,4 +1,4 @@
-CUSTOMERS: [
+CUSTOMERS = [
     {
       "id": 1,
       "name": "Nathan Hamilton",
