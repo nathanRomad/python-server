@@ -173,7 +173,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "locations":
             update_location(id, post_body)
 
-        # Encode the new animal and send in response
+        # Encode the new data and send in response
         self.wfile.write("".encode())
 
     def do_DELETE(self):
