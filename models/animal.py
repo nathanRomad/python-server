@@ -13,4 +13,4 @@ class Animal():
 
 new_animal = Animal(8, "Snickers", "Dog", "Recreation", 1, 4)
 
-print(new_animal)
+print(new_animal.name)
