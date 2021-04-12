@@ -174,7 +174,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             update_location(id, post_body)
 
         # Encode the new data and send in response
-        self.wfile.write("".encode())
+        # optional to send information back in the body.. not convention to send anything when a '204'
+        # self.wfile.write("".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
@@ -200,7 +201,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "locations":
             delete_location(id)
 
-        self.wfile.write("".encode())
+        # optional to send information back in the body.. not convention to send anything when a '204'
+        # self.wfile.write("".encode())
 
 
 # This function is not inside the class. It is the starting
