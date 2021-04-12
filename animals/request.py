@@ -1,56 +1,71 @@
 ANIMALS = [
     {
-      "id": 1,
-      "name": "Nanook",
-      "breed": "Siberian Husky",
-      "customerId": 1,
-      "locationId": 1
+        "id": 1,
+        "name": "Nanook",
+        "breed": "Siberian Husky",
+        "customerId": 1,
+        "locationId": 1,
+        "status": "Admitted"
+
     },
     {
-      "id": 2,
-      "name": "Frank",
-      "breed": "Brown Tabby",
-      "customerId": 2,
-      "locationId": 1
+        "id": 2,
+        "name": "Frank",
+        "breed": "Brown Tabby",
+        "customerId": 2,
+        "locationId": 1,
+        "status": "Admitted"
+
     },
     {
-      "id": 3,
-      "name": "Dean",
-      "breed": "Brown Tabby",
-      "customerId": 2,
-      "locationId": 1
+        "id": 3,
+        "name": "Dean",
+        "breed": "Brown Tabby",
+        "customerId": 2,
+        "locationId": 1,
+        "status": "Admitted"
+
     },
     {
-      "id": 4,
-      "name": "Gator",
-      "breed": "German Shepherd",
-      "customerId": 1,
-      "locationId": 1
+        "id": 4,
+        "name": "Gator",
+        "breed": "German Shepherd",
+        "customerId": 1,
+        "locationId": 1,
+        "status": "Admitted"
+
     },
     {
-      "id": 5,
-      "name": "Rubber Duckie",
-      "breed": "Rubber Duck",
-      "customerId": 1,
-      "locationId": 2
+        "id": 5,
+        "name": "Rubber Duckie",
+        "breed": "Rubber Duck",
+        "customerId": 1,
+        "locationId": 2,
+        "status": "Admitted"
+
     },
     {
-      "id": 6,
-      "name": "Mighty",
-      "breed": "Labradoodle",
-      "customerId": 3,
-      "locationId": 2
+        "id": 6,
+        "name": "Mighty",
+        "breed": "Labradoodle",
+        "customerId": 3,
+        "locationId": 2,
+        "status": "Admitted"
+
     },
     {
-      "id": 7,
-      "name": "Robo-dog",
-      "breed": "robotDog_v2.0",
-      "customerId": 4,
-      "locationId": 2
+        "id": 7,
+        "name": "Robo-dog",
+        "breed": "robotDog_v2.0",
+        "customerId": 4,
+        "locationId": 2,
+        "status": "Admitted"
     }
 ]
 
 # Function with a single parameter
+
+
 def get_single_animal(id):
     # Variable to hold the found animal, if it exists
     requested_animal = None
@@ -65,8 +80,10 @@ def get_single_animal(id):
 
     return requested_animal
 
+
 def get_all_animals():
     return ANIMALS
+
 
 def create_animal(animal):
     # Get the id value of the last animal in the list
@@ -84,6 +101,7 @@ def create_animal(animal):
     # Return the dictionary with `id` property added
     return animal
 
+
 def delete_animal(id):
     # Initial -1 value for animal index, in case one isn't found
     animal_index = -1
@@ -98,3 +116,12 @@ def delete_animal(id):
     # If the animal was found, use pop(int) to remove it from list
     if animal_index >= 0:
         ANIMALS.pop(animal_index)
+
+def update_animal(id, new_animal):
+    # Iterate the ANIMALS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, animal in enumerate(ANIMALS):
+        if animal["id"] == id:
+            # Found the animal. Update the value.
+            ANIMALS[index] = new_animal
+            break
