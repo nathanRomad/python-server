@@ -117,11 +117,11 @@ def delete_animal(id):
     if animal_index >= 0:
         ANIMALS.pop(animal_index)
 
-def update_animal(id, new_animal):
+def update_animal(id, updated_animal):
     # Iterate the ANIMALS list, but use enumerate() so that
     # you can access the index value of each item.
     for index, animal in enumerate(ANIMALS):
         if animal["id"] == id:
             # Found the animal. Update the value.
-            ANIMALS[index] = new_animal
+            ANIMALS[index] = updated_animal
             break
