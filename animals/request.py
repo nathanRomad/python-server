@@ -1,3 +1,8 @@
+import sqlite3
+import json
+from models import Animal
+
+
 ANIMALS = [
     {
         "id": 1,
