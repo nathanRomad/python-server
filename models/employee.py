@@ -1,0 +1,7 @@
+class Employee():
+
+    def __init__(self, id, name, position, location_id):
+        self.id = id
+        self.name = name
+        self.position = position
+        self.location_id = location_id
