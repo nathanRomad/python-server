@@ -64,7 +64,7 @@ def get_single_customer(id):
             a.name,
             a.address,
             a.email,
-            a.password,
+            a.password
         FROM customer a
         WHERE a.id = ?
         """, ( id, ))
@@ -73,7 +73,7 @@ def get_single_customer(id):
         data = db_cursor.fetchone()
 
         # Create an customer instance from the current row
-        customer = customer(data['id'], data['name'], data['address'],
+        customer = Customer(data['id'], data['name'], data['address'],
                             data['email'], data['password'])
 
         return json.dumps(customer.__dict__)
@@ -96,7 +96,7 @@ def get_all_customers():
             a.name,
             a.address,
             a.email,
-            a.password,
+            a.password
         FROM customer a
         """)
 
@@ -113,7 +113,7 @@ def get_all_customers():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # customer class above.
-            customer = customer(row['id'], row['name'], row['address'],
+            customer = Customer(row['id'], row['name'], row['address'],
                             row['email'], row['password'])
 
             customers.append(customer.__dict__)
