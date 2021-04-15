@@ -2,89 +2,6 @@ import sqlite3
 import json
 from models import Animal
 
-
-# ANIMALS = [
-#     {
-#         "id": 1,
-#         "name": "Nanook",
-#         "breed": "Siberian Husky",
-#         "customerId": 1,
-#         "locationId": 1,
-#         "status": "Admitted"
-
-#     },
-#     {
-#         "id": 2,
-#         "name": "Frank",
-#         "breed": "Brown Tabby",
-#         "customerId": 2,
-#         "locationId": 1,
-#         "status": "Admitted"
-
-#     },
-#     {
-#         "id": 3,
-#         "name": "Dean",
-#         "breed": "Brown Tabby",
-#         "customerId": 2,
-#         "locationId": 1,
-#         "status": "Admitted"
-
-#     },
-#     {
-#         "id": 4,
-#         "name": "Gator",
-#         "breed": "German Shepherd",
-#         "customerId": 1,
-#         "locationId": 1,
-#         "status": "Admitted"
-
-#     },
-#     {
-#         "id": 5,
-#         "name": "Rubber Duckie",
-#         "breed": "Rubber Duck",
-#         "customerId": 1,
-#         "locationId": 2,
-#         "status": "Admitted"
-
-#     },
-#     {
-#         "id": 6,
-#         "name": "Mighty",
-#         "breed": "Labradoodle",
-#         "customerId": 3,
-#         "locationId": 2,
-#         "status": "Admitted"
-
-#     },
-#     {
-#         "id": 7,
-#         "name": "Robo-dog",
-#         "breed": "robotDog_v2.0",
-#         "customerId": 4,
-#         "locationId": 2,
-#         "status": "Admitted"
-#     }
-# ]
-
-# Function with a single parameter
-
-
-# def get_single_animal(id):
-#     # Variable to hold the found animal, if it exists
-#     requested_animal = None
-
-#     # Iterate the ANIMALS list above. Very similar to the
-#     # for..of loops you used in JavaScript.
-#     for animal in ANIMALS:
-#         # Dictionaries in Python use [] notation to find a key
-#         # instead of the dot notation that JavaScript used.
-#         if animal["id"] == id:
-#             requested_animal = animal
-
-#     return requested_animal
-
 def get_single_animal(id):
     with sqlite3.connect("./kennel.db") as conn:
         conn.row_factory = sqlite3.Row
@@ -200,3 +117,32 @@ def update_animal(id, updated_animal):
             # Found the animal. Update the value.
             ANIMALS[index] = updated_animal
             break
+
+
+def get_animals_by_location(location):
+
+    with sqlite3.connect("./kennel.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        select
+            c.id,
+            c.name,
+            c.breed,
+            c.status,
+            c.location_id
+            c.customer_id
+        from Animal c
+        WHERE c.status = ?
+        """, ( location, ))
+
+        animals = []
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            animal = Animal(row['id'], row['name'], row['breed'], row['status'], row['location_id'], row['customer_id'])
+            animals.append(animal.__dict__)
+
+    return json.dumps(animals)
