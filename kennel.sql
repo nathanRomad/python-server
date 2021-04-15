@@ -30,8 +30,11 @@ CREATE TABLE `Employee` (
 	`address`	TEXT NOT NULL,
 	`location_id` INTEGER NOT NULL,
 	FOREIGN KEY(`location_id`) REFERENCES `Location`(`id`)
-
 );
+
+ALTER TABLE `Employee`
+	ADD `position` TEXT NOT NULL 
+		DEFAULT "team_member";
 
 INSERT INTO `Location` VALUES (null, 'Nashville North', "64 Washington Heights");
 INSERT INTO `Location` VALUES (null, 'Nashville South', "101 Penn Ave");
@@ -56,3 +59,15 @@ INSERT INTO `Animal` VALUES (null, "Jax", "Treatment", "Beagle", 1, 1);
 INSERT INTO `Animal` VALUES (null, "Falafel", "Treatment", "Siamese", 4, 2);
 INSERT INTO `Animal` VALUES (null, "Doodles", "Kennel", "Poodle", 3, 1);
 INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
+
+
+-- Get only the animal rows where the `id` field value is 3
+SELECT
+    a.id,
+    a.name,
+    a.breed,
+    a.status,
+    a.location_id,
+    a.customer_id
+FROM animal a
+WHERE a.id = 2
