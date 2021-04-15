@@ -139,10 +139,13 @@ def get_animals_by_location(location):
         """, ( location, ))
 
         animals = []
+
+        # get data back from SQL request
         dataset = db_cursor.fetchall()
 
         for row in dataset:
             animal = Animal(row['id'], row['name'], row['breed'], row['status'], row['location_id'], row['customer_id'])
+            # adding dictionaries to animals list / animal.__dict__ creates the dictionaries
             animals.append(animal.__dict__)
 
     return json.dumps(animals)
