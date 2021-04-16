@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from animals import get_all_animals, get_single_animal, create_animal, delete_animal, update_animal
-from customers import get_all_customers, get_single_customer, create_customer, delete_customer, update_customer
+from animals import get_all_animals, get_single_animal, create_animal, delete_animal, update_animal, get_animals_by_location
+from customers import get_all_customers, get_single_customer, create_customer, delete_customer, update_customer, get_customers_by_email
 from employees import get_all_employees, get_single_employee, create_employee, delete_employee, update_employee
 from locations import get_all_locations, get_single_location, create_location, delete_location, update_location
 
@@ -25,7 +25,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             key = pair[0]  # 'email'
             value = pair[1]  # 'jenna@solis.com'
 
-            return ( resource, key, value )
+            return ( resource, key, value ) # (this is a tuple)
 
         # No query string parameter
         else:
@@ -59,7 +59,6 @@ class HandleRequests(BaseHTTPRequestHandler):
     # It handles any GET request.
     def do_GET(self):
         self._set_headers(200)
-
         response = {}
 
         # Parse URL and store entire tuple in a variable
@@ -68,6 +67,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Response from parse_url() is a tuple with 2
         # items in it, which means the request was for
         # `/animals` or `/animals/2`
+        # len = python variable for length
         if len(parsed) == 2:
             ( resource, id ) = parsed
 
@@ -86,13 +86,16 @@ class HandleRequests(BaseHTTPRequestHandler):
         # items in it, which means the request was for
         # `/resource?parameter=value`
         elif len(parsed) == 3:
-            ( resource, key, value ) = parsed
+            ( resource, key, value ) = parsed  # unpack Tuple, set to variable
 
             # Is the resource `customers` and was there a
             # query parameter that specified the customer
             # email as a filtering value?
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
+            if key == "location_id":
+                if resource == "animals":
+                    response = get_animals_by_location(value)
 
         self.wfile.write(response.encode())
 
