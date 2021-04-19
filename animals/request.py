@@ -94,29 +94,60 @@ def create_animal(animal):
     return animal
 
 
+# def delete_animal(id):
+#     # Initial -1 value for animal index, in case one isn't found
+#     animal_index = -1
+
+#     # Iterate the ANIMALS list, but use enumerate() so that you
+#     # can access the index value of each item
+#     for index, animal in enumerate(ANIMALS):
+#         if animal["id"] == id:
+#             # Found the animal. Store the current index.
+#             animal_index = index
+
+#     # If the animal was found, use pop(int) to remove it from list
+#     if animal_index >= 0:
+#         ANIMALS.pop(animal_index)
+
+
 def delete_animal(id):
-    # Initial -1 value for animal index, in case one isn't found
-    animal_index = -1
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
 
-    # Iterate the ANIMALS list, but use enumerate() so that you
-    # can access the index value of each item
-    for index, animal in enumerate(ANIMALS):
-        if animal["id"] == id:
-            # Found the animal. Store the current index.
-            animal_index = index
+        # animal = get_single_animal(id)
 
-    # If the animal was found, use pop(int) to remove it from list
-    if animal_index >= 0:
-        ANIMALS.pop(animal_index)
+        db_cursor.execute("""
+        DELETE FROM animal
+        WHERE id = ?
+        """, (id, ))
 
-def update_animal(id, updated_animal):
-    # Iterate the ANIMALS list, but use enumerate() so that
-    # you can access the index value of each item.
-    for index, animal in enumerate(ANIMALS):
-        if animal["id"] == id:
-            # Found the animal. Update the value.
-            ANIMALS[index] = updated_animal
-            break
+def update_animal(id, new_animal):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Animal
+            SET
+                name = ?,
+                breed = ?,
+                status = ?,
+                location_id = ?,
+                customer_id = ?
+        WHERE id = ?
+        """, (new_animal['name'], new_animal['breed'],
+              new_animal['status'], new_animal['location_id'],
+              new_animal['customer_id'], id, ))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True
 
 
 def get_animals_by_location(location):
@@ -146,6 +177,35 @@ def get_animals_by_location(location):
         for row in dataset:
             animal = Animal(row['id'], row['name'], row['breed'], row['status'], row['location_id'], row['customer_id'])
             # adding dictionaries to animals list / animal.__dict__ creates the dictionaries
+            animals.append(animal.__dict__)
+
+    return json.dumps(animals)
+
+def get_animals_by_status(status):
+    with sqlite3.connect("kennel.db") as conn:
+
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute(""" 
+        SELECT
+            a.id,
+            a.name,
+            a.breed,
+            a.status,
+            a.location_id,
+            a.customer_id
+            FROM animal a
+            WHERE a.status = ?
+        """, (status,))
+
+        animals =[]
+
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            animal = Animal(row["id"], row["name"], row["breed"], row["status"], row["location_id"], row["customer_id"])
+
             animals.append(animal.__dict__)
 
     return json.dumps(animals)
