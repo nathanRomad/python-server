@@ -162,36 +162,57 @@ class HandleRequests(BaseHTTPRequestHandler):
             self.wfile.write(f"{new_location}".encode())
 
 
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any PUT request.
-    def do_PUT(self):
+    # # Here's a method on the class that overrides the parent's method.
+    # # It handles any PUT request.
+    # def do_PUT(self):
+    #     self._set_headers(204)
+    #     content_len = int(self.headers.get('content-length', 0))
+    #     post_body = self.rfile.read(content_len)
+    #     post_body = json.loads(post_body)
+
+    #     # Parse the URL
+    #     (resource, id) = self.parse_url(self.path)
+
+    #     # Delete a single animal from the list
+    #     if resource == "animals":
+    #         update_animal(id, post_body)
+        
+    #     # Delete a single customer from the list
+    #     if resource == "customers":
+    #         update_customer(id, post_body)
+        
+    #     # Delete a single employee from the list
+    #     if resource == "employees":
+    #         update_employee(id, post_body)
+        
+    #     # Delete a single location from the list
+    #     if resource == "locations":
+    #         update_location(id, post_body)
+
+    #     # Encode the new data and send in response
+    #     # optional to send information back in the body.. not convention to send anything when a '204'
+    #     # self.wfile.write("".encode())
+
+def do_PUT(self):
+    content_len = int(self.headers.get('content-length', 0))
+    post_body = self.rfile.read(content_len)
+    post_body = json.loads(post_body)
+
+    # Parse the URL
+    (resource, id) = self.parse_url(self.path)
+
+    success = False
+
+    if resource == "animals":
+        success = update_animal(id, post_body)
+    # rest of the elif's
+
+    if success:
         self._set_headers(204)
-        content_len = int(self.headers.get('content-length', 0))
-        post_body = self.rfile.read(content_len)
-        post_body = json.loads(post_body)
+    else:
+        self._set_headers(404)
 
-        # Parse the URL
-        (resource, id) = self.parse_url(self.path)
-
-        # Delete a single animal from the list
-        if resource == "animals":
-            update_animal(id, post_body)
-        
-        # Delete a single customer from the list
-        if resource == "customers":
-            update_customer(id, post_body)
-        
-        # Delete a single employee from the list
-        if resource == "employees":
-            update_employee(id, post_body)
-        
-        # Delete a single location from the list
-        if resource == "locations":
-            update_location(id, post_body)
-
-        # Encode the new data and send in response
-        # optional to send information back in the body.. not convention to send anything when a '204'
-        # self.wfile.write("".encode())
+    self.wfile.write("".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
