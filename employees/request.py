@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models.employee import Employee
+from models import Employee, Location
 
 def get_single_employee(id):
     with sqlite3.connect("./kennel.db") as conn:
@@ -45,8 +45,12 @@ def get_all_employees():
             a.id,
             a.name,
             a.position,
-            a.location_id
+            a.location_id,
+            l.name location_name,
+            l.address location_address
         FROM employee a
+        JOIN Location l
+            ON l.id = a.location_id
         """)
 
         # Initialize an empty list to hold all employee representations
@@ -62,8 +66,18 @@ def get_all_employees():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # employee class above.
-            employee = Employee(row['id'], row['name'], row['position'],
-                            row['location_id'])
+            employee = Employee(row['id'], 
+                                row['name'], 
+                                row['position'],
+                                row['location_id']
+                                )
+            
+            location = Location(row['location_id'], 
+                                row['location_name'], 
+                                row['location_address']
+                                )
+
+            employee.location = location.__dict__
 
             employees.append(employee.__dict__)
 

@@ -10,6 +10,8 @@ class Animal():
         self.status = status
         self.location_id = location_id
         self.customer_id = customer_id
+        self.location = None
+        self.customer = None
 
 new_animal = Animal(8, "Snickers", "Dog", "Recreation", 1, 4)
 
