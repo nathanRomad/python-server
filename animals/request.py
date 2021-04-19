@@ -19,15 +19,15 @@ def get_single_animal(id):
             a.customer_id
         FROM animal a
         WHERE a.id = ?
-        """, (id, ))
+        """, ( id, ))
 
         # Load the single result into memory
         data = db_cursor.fetchone()
 
         # Create an animal instance from the current row
         animal = Animal(data['id'], data['name'], data['breed'],
-                        data['status'], data['location_id'],
-                        data['customer_id'])
+                            data['status'], data['location_id'],
+                            data['customer_id'])
 
         return json.dumps(animal.__dict__)
 
@@ -99,7 +99,7 @@ def get_all_animals():
             animals.append(animal.__dict__)
 
             # Use `json` package to properly serialize list as JSON
-            return json.dumps(animals)
+        return json.dumps(animals)
 
 
 def create_animal(animal):
