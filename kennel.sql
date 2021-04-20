@@ -57,7 +57,7 @@ INSERT INTO `Animal` VALUES (null, "Jax", "Treatment", "Beagle", 1, 1);
 INSERT INTO `Animal` VALUES (null, "Falafel", "Treatment", "Siamese", 4, 2);
 INSERT INTO `Animal` VALUES (null, "Doodles", "Kennel", "Poodle", 3, 1);
 INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
-
+UPDATE 'Animal' SET location_id = 1 WHERE id = 5;
 
 -- Get only the animal rows where the `id` field value is 3
 SELECT
@@ -102,3 +102,5 @@ SELECT
             ON l.id = a.location_id
         JOIN Customer c
             ON c.id = a.customer_id
+
+SELECT * FROM Animal ORDER BY id DESC;
